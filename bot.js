@@ -4,7 +4,7 @@ var botID = process.env.BOT_ID;
 
 function respond() {
   var request = JSON.parse(this.req.chunks[0]),
-      botRegexDad = /^I'm([a-zA-Z]|,|'| )*(\.|\?|\!|)/; 
+      botRegexDad = /^(I|i)'?m([a-zA-Z"-]|,|'| )*(\.|\?|\!|)/; 
 
 
   if(request.text && botRegexDad.test(request.text) && (request.text.indexOf("@") == -1) && (request.name.toUpperCase() != "GroupMe".toUpperCase()) && (request.name != "Dad")) {
@@ -58,12 +58,13 @@ function getResponseString(text, dadRegex) {
   var match = dadRegex.exec(text);
   var matchingString = match[0];
   var punctCheck = matchingString.substring(matchingString.length-1, matchingString.length);
+  var checkPoint = matchingString.indexOf("m");
   if(punctCheck == "." || punctCheck == "!" || punctCheck == "?"){
-    return matchingString.substring(4, matchingString.length-1);
+    return matchingString.substring(checkPoint+2, matchingString.length-1);
   }
   else
   {
-    return matchingString.substring(4, matchingString.length);
+    return matchingString.substring(checkPoint+2, matchingString.length);
   }  
 }
 
